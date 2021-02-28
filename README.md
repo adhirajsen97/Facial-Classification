@@ -32,162 +32,163 @@ Experiment 1 - Base model for cross entropy
 
 Parameters:   
               **Neural Net**
-              **Activation**: ReLU
-              **Loss Function:** Cross Entropy CNN Layers: 6
-              **Filters**: (32,32,64,64,128,128) Dropout: 3 (1 for each 2 CNN) Dropout %: 0.25
-              **Padding**: “same”
-              **Kernel Size**: 3x3 Max Pooling: 3
-              **Pool Size**: 2x2
-              **Fully Connected Layers**: 2
-              **Softmax**: 1 Neurons: (512,5) Dropout: 1 Dropout %: 0.3
+              **Activation**: ReLU,
+              **Loss Function:** Cross Entropy CNN Layers: 6,
+              **Filters**: (32,32,64,64,128,128) Dropout: 3 (1 for each 2 CNN) Dropout %: 0.25,
+              **Padding**: “same”,
+              **Kernel Size**: 3x3 Max Pooling: 3,
+              **Pool Size**: 2x2,
+              **Fully Connected Layers**: 2,
+              **Softmax**: 1 Neurons: (512,5) Dropout: 1 Dropout %: 0.3,
               
 Results:      
-              **Epochs**: 64
-              **Train/Test Split**: 75:25
-              **Size of Dataset**: 2000 
-              **Training Accuracy**: 0.604 
-              **Test Accuracy**: 0.449 
-              **Training Cross Entropy Sum**: 55.368
-              **Testing Cross Entropy Sum**: 88.099
+              **Epochs**: 64,
+              **Train/Test Split**: 75:25,
+              **Size of Dataset**: 2000 ,
+              **Training Accuracy**: 0.604, 
+              **Test Accuracy**: 0.449 ,
+              **Training Cross Entropy Sum**: 55.368,
+              **Testing Cross Entropy Sum**: 88.099,
               
 Experiment 2 - Increased number of fully connected layers, from 2 to 4.
 
 Parameters:   
               **Neural Net**
-              **Activation**: ReLU
-              **Loss Function**: Cross Entropy 
-              **CNN Layers**: 6
-              **Filters**: (32,32,64,64,128,128) Dropout: 3 (1 for each 2 CNN) Dropout %: 0.25
-              **Padding**: “same”
-              **Kernel Size**: 3x3 Max Pooling: 3
-              **Pool Size**: 2x2
-              **Fully Connected Layers**: 4
-              **Softmax**: 1
-              **Neurons**: (512,128,128,5) Dropout: 3
-              **Dropout** %: 0.45
+              **Activation**: ReLU,
+              **Loss Function**: Cross Entropy ,
+              **CNN Layers**: 6,
+              **Filters**: (32,32,64,64,128,128) Dropout: 3 (1 for each 2 CNN) Dropout %: 0.25,
+              **Padding**: “same”,
+              **Kernel Size**: 3x3 Max Pooling: 3,
+              **Pool Size**: 2x2,
+              **Fully Connected Layers**: 4,
+              **Softmax**: 1,
+              **Neurons**: (512,128,128,5) Dropout: 3,
+              **Dropout** %: 0.45,
               
 Results:      
-              **Size of Dataset**: 2000 
-              **Training Accuracy**: 0.414 
-              **Test Accuracy**:0.452 
-              **Training Cross Entropy Sum**: 26.318
-              **Testing Cross Entropy Sum**: 27.921
+              **Size of Dataset**: 2000 ,
+              **Training Accuracy**: 0.414 ,
+              **Test Accuracy**:0.452 ,
+              **Training Cross Entropy Sum**: 26.318,
+              **Testing Cross Entropy Sum**: 27.921,
               
 Experiment 3 - Base model for RMSE.
 
 Parameters:   
-              **Neural Net Activation**: ReLU 
-              **Loss Function**: RMSE 
-              **CNN Layers**: 6
-              **Filters**: (32,32,64,64,128,128) 
-              **Dropout**: 3 (1 for each 2 CNN) 
-              **Dropout** %: 0.25
-              **Padding**: “same”
-              **Kernel Size**: 3x3 Max Pooling: 3
-              **Pool Size**: 2x2
-              **Fully Connected Layers**: 2
-              **Softmax**: 1 Neurons: (512,5) 
-              **Dropout**: 1 Dropout %: 0.3
+              **Neural Net Activation**: ReLU ,
+              **Loss Function**: RMSE ,
+              **CNN Layers**: 6,
+              **Filters**: (32,32,64,64,128,128) ,
+              **Dropout**: 3 (1 for each 2 CNN) ,
+              **Dropout** %: 0.25,
+              **Padding**: “same”,
+              **Kernel Size**: 3x3 Max Pooling: 3,
+              **Pool Size**: 2x2,
+              **Fully Connected Layers**: 2,
+              **Softmax**: 1 Neurons: (512,5) ,
+              **Dropout**: 1 Dropout %: 0.3,
               
 Results:      
-              **Epochs**:250
-              **Train/Test Split**: 75:25 Size of Dataset: 2000 
+              **Epochs**:250,
+              **Train/Test Split**: 75:25 ,
+              **Size of Dataset:** 2000 ,
               **Metric**:
-              **Training MAE**: 0.7
-              **Test MAE**:0.842
+              **Training MAE**: 0.7,
+              **Test MAE**:0.842,
               **Loss**:
-              **Training RMSE avg**:1.048 
-              **Testing RMSE avg**:0.846
+              **Training RMSE avg**:1.048 ,
+              **Testing RMSE avg**:0.846,
               
 Experiment 4 - Deeper fully connected layer after CNN.
 
 Parameters:   
-              **Neural Net Activation**: ReLU 
-              **Loss Function**: RMSE 
-              **CNN Layers**: 6
-              **Filters**: (32,32,64,64,128,128) 
-              **Dropout**: 3 (1 for each 2 CNN) 
-              **Dropout** %: 0.25
-              **Padding**: “same”
-              **Kernel Size**: 3x3 
-              **Max Pooling**: 3
-              **Pool Size:** 2x2
-              **Fully Connected Layers**: 4
-              **Softmax**: 1
-              **Neurons**: (512,128,128,5) 
-              **Dropout**: 3
-              **Dropout** %: 0.2
+              **Neural Net Activation**: ReLU ,
+              **Loss Function**: RMSE ,
+              **CNN Layers**: 6,
+              **Filters**: (32,32,64,64,128,128) ,
+              **Dropout**: 3 (1 for each 2 CNN) ,
+              **Dropout** %: 0.25,
+              **Padding**: “same”,
+              **Kernel Size**: 3x3 ,
+              **Max Pooling**: 3,
+              **Pool Size:** 2x2,
+              **Fully Connected Layers**: 4,
+              **Softmax**: 1,
+              **Neurons**: (512,128,128,5) ,
+              **Dropout**: 3,
+              **Dropout** %: 0.2,
               
 Results:      
-              **Epochs**:30
-              **Train/Test Split**: 75:25 
-              **Size of Dataset**: 2000 
+              **Epochs**:30,
+              **Train/Test Split**: 75:25 ,
+              **Size of Dataset**: 2000 ,
               **Metric**:
-              **Training MAE**: 1.231
-              **Test MAE**:0.794
+              **Training MAE**: 1.231,
+              **Test MAE**:0.794,
               **Loss**:
-              **Training RMSE avg**: 0.982 
-              **Testing RMSE avg**: 1.405
+              **Training RMSE avg**: 0.982 ,
+              **Testing RMSE avg**: 1.405,
               
 Experiment 5 - Base model for RMSE with deeper CNN layers instead of fully connected layers.
 
 Parameters:   
-              **Neural Net Activation**: ReLU 
-              **Loss Function**: RMSE 
-              **CNN Layers:** 12
-              **Filters**: (32,32,64,64,128,128,256, 256,512,512,1024,1024)
-              **Dropout**: 3 (1 for each 2 CNN) 
-              **Dropout** %: 0.25
-              **Padding**: “same”
-              **Kernel Size**: 3x3
-              **Max Pooling**: 3 
-              **Pool Size**: 2x2
-              **Fully Connected Layers**: 2 
-              **Softmax**: 1
-              **Neurons**: (512,5) 
-              **Dropout**: 1
-              **Dropout** %: 0.3
+              **Neural Net Activation**: ReLU ,
+              **Loss Function**: RMSE ,
+              **CNN Layers:** 12,
+              **Filters**: (32,32,64,64,128,128,256, 256,512,512,1024,1024),
+              **Dropout**: 3 (1 for each 2 CNN) ,
+              **Dropout** %: 0.25,
+              **Padding**: “same”,
+              **Kernel Size**: 3x3,
+              **Max Pooling**: 3 ,
+              **Pool Size**: 2x2,
+              **Fully Connected Layers**: 2 ,
+              **Softmax**: 1,
+              **Neurons**: (512,5) ,
+              **Dropout**: 1,
+              **Dropout** %: 0.3,
               
 Results:      
-              **Epochs**:64
-              **Train/Test Split**: 75:25 
-              **Size of Dataset**: 2000 
+              **Epochs**:64,
+              **Train/Test Split**: 75:25 ,
+              **Size of Dataset**: 2000 ,
               **Metric**:
-              **Training MAE**: 0.674
-              **Test MAE**: 0.579
+              **Training MAE**: 0.674,
+              **Test MAE**: 0.579,
               **Loss**:
-              **Training RMSE avg**: 0.717 
-              **Testing RMSE avg:** 0.830
+              **Training RMSE avg**: 0.717 ,
+              **Testing RMSE avg:** 0.830,
               
 Experiment 6 - Deeper CNN layers, trained with less epochs
 
 Parameters:   
-              **Neural Net Activation**: ReLU 
-              **Loss Function**: RMSE 
-              **CNN Layers**: 12
-              **Filters**: (32,32,64,64,128,128,256, 256,512,512,1024,1024)
-              **Dropout**: 3 (1 for each 2 CNN) 
-              **Dropout** %: 0.25
-              **Padding**: “same”
-              **Kernel Size**: 3x3
-              **Max Pooling**: 3 
-              **Pool Size**: 2x2
-              **Fully Connected Layers**: 2 
-              **Softmax**: 1
-              **Neurons**: (512,5) 
-              **Dropout**: 1
-              **Dropout** %: 0.3
+              **Neural Net Activation**: ReLU ,
+              **Loss Function**: RMSE ,
+              **CNN Layers**: 12,
+              **Filters**: (32,32,64,64,128,128,256, 256,512,512,1024,1024),
+              **Dropout**: 3 (1 for each 2 CNN) ,
+              **Dropout** %: 0.25,
+              **Padding**: “same”,
+              **Kernel Size**: 3x3,
+              **Max Pooling**: 3 ,
+              **Pool Size**: 2x2,
+              **Fully Connected Layers**: 2 ,
+              **Softmax**: 1,
+              **Neurons**: (512,5) ,
+              **Dropout**: 1,
+              **Dropout** %: 0.3,
               
 Results:     
-              **Epochs**:10
-              **Train/Test Split**: 75:25 
-              **Size of Dataset**: 2000 
+              **Epochs**:10,
+              **Train/Test Split**: 75:25 ,
+              **Size of Dataset**: 2000 ,
               **Metric**:
-              **Training MAE**: 0.743
-              **Test MAE**: 0.871
+              **Training MAE**: 0.743,
+              **Test MAE**: 0.871,
               **Loss**:
-              **Training RMSE avg**: 1.074 
-              **Testing RMSE avg**: 0.904
+              **Training RMSE avg**: 1.074 ,
+              **Testing RMSE avg**: 0.904,
 
 
 As we can see, the best performing model among all 6 is the model with the one with the deepest level of CNN layers. This model was subject to overfitting, which is why the 6th model was trained with significantly less epochs.
