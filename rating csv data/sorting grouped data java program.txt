@@ -1,0 +1,101 @@
+package src;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Main {
+	
+	//the program recieves a csv file of two columns
+	//It cycles through each left row and checks if the line it is reading is the same as the previous(in this case unique filename being repeated)
+	//if so it adds the rows right column to the average of the filename
+	//regex is used to extract only the filename number
+	public static void main(String[] args)
+    {
+		String inputFile = "D:\\Dropbox\\utd\\cs courses\\cs 4375 machine learning\\assignments\\project\\averagePerFileMean.txt";
+		String outputFile = "D:\\Dropbox\\utd\\cs courses\\cs 4375 machine learning\\assignments\\project\\sortedAvgRatingAF.txt";
+		
+		
+		FileWriter outputFileObj = null;
+		
+		try {
+			outputFileObj = new FileWriter(outputFile);
+		} catch (IOException e1) {
+			System.out.println("Output file could not be created");
+			e1.printStackTrace();
+		}
+		
+		File inputFileObj = new File(inputFile);
+		Scanner inputFileReader = null;
+		try {
+			inputFileReader = new Scanner(inputFileObj);
+		} catch (FileNotFoundException e) {
+			System.out.println("Input file not found");
+			e.printStackTrace();
+		}
+		
+		String fileString = " ";
+		int positionStart = 0;
+		int positionStart2 = 0;
+		int positionEnd = 0;
+		int positionEnd2 = 0;
+		String newString = "";
+		String newString2 = "";
+
+		
+		int index = 1;
+		double avg = 0.0;
+		String averageArr[] = new String[2000];
+	
+		
+		//because there is guaranteed to be one filename per number between 1-2000 only one while loop needed
+		while(inputFileReader.hasNext()) {//while loop file reader
+			fileString = inputFileReader.nextLine();
+			Pattern p = Pattern.compile("\\d+[.][j]");
+			Matcher m = p.matcher(fileString);
+			if (m.find()) { //will always excecute
+			   positionStart = m.start();
+			   positionEnd = m.end() - 2; //-2 for the 
+			}
+			newString = fileString.substring(positionStart, positionEnd);//AF file number
+			index = Integer.parseInt(newString);
+			
+			Pattern p2 = Pattern.compile("[,]\\d[.]\\d+$");
+			Matcher m2 = p2.matcher(fileString);
+			if (m2.find()) { //will always excecute
+			   positionStart2 = m2.start() + 1; //after the comma
+			   positionEnd2 = m2.end(); 
+			}
+			newString2 = fileString.substring(positionStart2, positionEnd2);//average value
+			
+			averageArr[index-1] = newString2;
+		}//while loop
+		
+		//printing to file
+		for(int i = 0; i < averageArr.length; i++) {
+			writeToFile(averageArr[i], outputFileObj);
+		}
+		
+		
+		try {
+			outputFileObj.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+    }//main
+	private static void writeToFile(String stringToWrite, FileWriter fileWriterObj) {
+		try {
+			fileWriterObj.write(stringToWrite + "\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+    
+}

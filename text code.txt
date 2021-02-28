@@ -1,0 +1,234 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import pandas as pd
+import seaborn as sns
+import os
+from os import listdir
+import sklearn
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+
+import keras
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+from keras.preprocessing.image import load_img
+from keras.preprocessing.image import img_to_array
+
+import numpy as np
+
+import cv2
+
+from sklearn.metrics import classification_report
+from keras.models import load_model
+import matplotlib.pyplot as plt
+
+from keras.callbacks import CSVLogger
+
+
+# Model 2's variation includes a deeper fully connect NN layer after the CNN filters
+
+# Data preperation until In[9]
+
+# In[2]:
+
+
+datasetAF = pd.read_csv("D:\\Dropbox\\utd\\cs courses\\cs 4375 machine learning\\assignments\\project\\rating csv data\\All_Ratings asian female csv.txt",header = 0)
+
+
+# In[3]:
+
+
+avgPerFile = datasetAF['Rating'].groupby(datasetAF['Filename'],sort=False)
+
+
+# In[4]:
+
+
+averagePerFileMean = avgPerFile.mean()
+
+
+# In[5]:
+
+
+#creating new dataframe with columns Filename and Avg Rating
+preparedAFDataset = pd.DataFrame({'Filename':averagePerFileMean.index, 'Avg Rating':averagePerFileMean.values})
+
+
+# In[6]:
+
+
+#rounding the Avg Rating column, still a float dtype
+preparedAFDataset[['Avg Rating']] = preparedAFDataset[['Avg Rating']].round()
+#now an int dtype
+preparedAFDataset[['Avg Rating']] = preparedAFDataset[['Avg Rating']].astype(int)
+
+
+# In[7]:
+
+
+lb = preprocessing.LabelBinarizer()
+labels = lb.fit_transform(preparedAFDataset[['Avg Rating']])
+
+
+# In[8]:
+
+
+#needed to join path because windows
+train_path = os.path.join('C:/', 'Users/alegAsus/Downloads/SCUT-FBP5500_v2.1/SCUT-FBP5500_v2/AF/AF/')
+images = []
+
+
+# In[9]:
+
+
+#adapted from https://www.quora.com/How-do-I-load-train-and-test-data-from-the-local-drive-for-a-deep-learning-Keras-model
+#listdir returns a list containing the names of the entries in the directory given by path.
+for sample in listdir(train_path):
+    img_path = train_path + sample #sample is every file in the train directory
+    x = cv2.imread(img_path) #loading file
+    x = cv2.resize(x, (96, 96))
+    # preprocessing if required
+    images.append(x) #adding to x_train array
+#scale all pixels to between 0 and 1
+imagesNumPy = np.array(images, dtype="float") / 255.0
+
+
+# In[10]:
+
+
+(trainX, testX, trainY, testY) = train_test_split(imagesNumPy, labels,test_size=0.25, stratify=labels, random_state=42)
+
+
+# New model with deeper fully connected layers
+
+# In[11]:
+
+
+#run this model with Dense(notDefinedVariable) to see functions in tensorflow that are to be depreciated
+model = Sequential()
+model.add(Conv2D(32, (3, 3), padding='same',
+                 input_shape=trainX.shape[1:]))
+model.add(Activation('relu'))
+model.add(Conv2D(32, (3, 3), padding='same'))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Conv2D(64, (3, 3), padding='same'))
+model.add(Activation('relu'))
+model.add(Conv2D(64, (3, 3), padding='same'))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Conv2D(128, (3, 3), padding='same'))
+model.add(Activation('relu'))
+model.add(Conv2D(128, (3, 3), padding='same'))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Flatten())
+model.add(Dense(512))
+model.add(Activation('relu'))
+model.add(Dropout(0.5))
+model.add(Dense(128))
+model.add(Activation('relu'))
+model.add(Dropout(0.5))
+model.add(Dense(128))
+model.add(Activation('relu'))
+model.add(Dropout(0.4))
+#5 due to the 5 possible classifications
+model.add(Dense(5))
+model.add(Activation('softmax'))
+
+# initiate RMSprop optimizer
+opt = keras.optimizers.rmsprop(lr=0.0001)
+
+# Let's train the model using RMSprop
+model.compile(loss='categorical_crossentropy',
+              optimizer=opt,
+              metrics=['accuracy'])
+#warnings are due to tensorflow package code, not project implementation
+
+
+# In[12]:
+
+
+csv_logger = CSVLogger(os.path.join('C:/', 'Users/alegAsus/Downloads/SCUT-FBP5500_v2.1/SCUT-FBP5500_v2/saved models/callbacks m3AF.log'), separator=',', append=False)
+modelHistory = model.fit(trainX, trainY,
+              batch_size=32,
+              epochs=22,
+              validation_data=(testX, testY),
+              shuffle=True, callbacks=[csv_logger])
+
+
+# In[13]:
+
+
+model_path = os.path.join('C:/', 'Users/alegAsus/Downloads/SCUT-FBP5500_v2.1/SCUT-FBP5500_v2/saved models/model3 AF.h5')
+model.save(model_path)
+print('Saved trained model at %s ' % model_path)
+
+
+# Creating a deeper fully connected layer creates an unexpected jump in the error of the
+
+# In[15]:
+
+
+#N is the number of epochs
+#plot code from https://www.pyimagesearch.com/2018/12/31/keras-conv2d-and-convolutional-layers/
+N = 22
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(np.arange(0, N), modelHistory.history["loss"], label="train_loss")
+plt.plot(np.arange(0, N), modelHistory.history["val_loss"], label="val_loss")
+plt.plot(np.arange(0, N), modelHistory.history["acc"], label="train_acc")
+plt.plot(np.arange(0, N), modelHistory.history["val_acc"], label="val_acc")
+plt.title("Training Loss and Accuracy on Dataset")
+plt.xlabel("Epoch #")
+plt.ylabel("Loss/Accuracy")
+plt.legend(loc="upper left")
+
+
+# In[16]:
+
+
+#plot code from https://www.pyimagesearch.com/2018/12/31/keras-conv2d-and-convolutional-layers/
+#Reading in exported csv file for finer manipulation in graphing
+historyDF = pd.read_csv("C:\\Users\\alegAsus\\Downloads\\SCUT-FBP5500_v2.1\\SCUT-FBP5500_v2\\saved models\\callbacks m3AF.log",header = 0)
+historyDF.head(10)
+
+
+# In[17]:
+
+
+#N is the number of epochs
+N = 22
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(np.arange(0, N), historyDF.iloc[0:N, 1], label="train_acc")
+plt.plot(np.arange(0, N), historyDF.iloc[0:N, 3], label="val_acc")
+plt.title("Training Loss and Accuracy on Dataset")
+plt.xlabel("Epoch #")
+plt.ylabel("Loss/Accuracy")
+plt.legend(loc="lower left")
+
+
+# As we can see in the plot above, the model begins to overfit past epoch 20, with the trainning accuracy continuing
+# to increase and thhe validation accuracy gradually decreasing.
+
+# Sum of cross entropy can be used to compare next models
+# #need to find point where train_acc > val_acc then sum cross entropy at that point.
+
+# In[ ]:
+
+
+
+
