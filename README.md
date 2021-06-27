@@ -199,5 +199,4 @@ Taking a lesson from the best preforming models the classification models can in
 Conclusion
 The researchers and their approach of using regression allowed them to get good results. A comparison would be welcome to find out how a classification approach would perform to a regression approach.
 Overall as a team we are happy with the amount of experiments we ran and experimentation we did. We learned a lot on preparing data and comparison of models in terms of performance.
-Contribution of team members
-Alejandro was responsible for running and creating many of the experiments and Subhash helped in providing ideas for tweaking parameters. Subhash also helped in processing the original data to something workable.
+
